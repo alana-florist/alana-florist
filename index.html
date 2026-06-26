@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Alana Florist – Hand Bouquet & Flower Arrangement</title>
+  <meta name="theme-color" content="#1a0a12" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #e8a0bf;
+      --blush:   #f5d5e0;
+      --deep:    #1a0a12;
+      --wine:    #7b2d45;
+      --cream:   #fdf6f0;
+      --muted:   #c49aab;
+      --card:    rgba(255,255,255,0.06);
+      --border:  rgba(232,160,191,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background: var(--deep);
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(123,45,69,0.55) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 100%, rgba(232,160,191,0.18) 0%, transparent 60%);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 60px;
+    }
+
+    /* ── Petals ambient ── */
+    .petal {
+      position: fixed;
+      top: -40px;
+      font-size: 18px;
+      opacity: 0;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.55; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── Avatar ── */
+    .avatar-wrap {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+    .avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(var(--rose), var(--wine), var(--rose));
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-inner {
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: #fff;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+    }
+
+    /* ── Name / bio ── */
+    .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--blush);
+      z-index: 1;
+      text-align: center;
+    }
+    .handle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-top: 2px;
+      z-index: 1;
+    }
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--rose);
+      margin-top: 10px;
+      text-align: center;
+      max-width: 300px;
+      line-height: 1.5;
+      z-index: 1;
+    }
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 12px;
+      z-index: 1;
+    }
+    .badge {
+      background: rgba(232,160,191,0.12);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--blush);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      max-width: 380px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 24px 0;
+      z-index: 1;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      align-self: flex-start;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 10px;
+      z-index: 1;
+    }
+
+    /* ── Link cards ── */
+    .links {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1;
+    }
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-decoration: none;
+      color: var(--cream);
+      backdrop-filter: blur(8px);
+      transition: background 0.22s, transform 0.18s, border-color 0.22s;
+    }
+    .link-card:hover, .link-card:focus-visible {
+      background: rgba(232,160,191,0.13);
+      border-color: var(--rose);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .link-card:active { transform: translateY(0); }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(232,160,191,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .link-text { display: flex; flex-direction: column; flex: 1; }
+    .link-title { font-size: 0.88rem; font-weight: 500; }
+    .link-sub   { font-size: 0.73rem; color: var(--muted); margin-top: 1px; }
+    .link-arrow { color: var(--muted); font-size: 0.8rem; }
+
+    /* ── Product grid cards ── */
+    .product-grid {
+      width: 100%;
+      max-width: 380px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      z-index: 1;
+    }
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      backdrop-filter: blur(8px);
+    }
+    .product-icon { font-size: 24px; margin-bottom: 4px; }
+    .product-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--blush);
+    }
+    .product-desc {
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── CTA button ── */
+    .cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+      padding: 15px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--wine) 0%, #c45a7a 100%);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      z-index: 1;
+      transition: opacity 0.2s, transform 0.18s;
+      box-shadow: 0 8px 30px rgba(123,45,69,0.45);
+    }
+    .cta:hover { opacity: 0.9; transform: translateY(-2px); }
+    .cta:active { transform: translateY(0); }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px;
+      font-size: 0.68rem;
+      color: rgba(196,154,171,0.45);
+      letter-spacing: 0.1em;
+      text-align: center;
+      z-index: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .petal, .avatar-ring { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling petals -->
+  <script>
+    const emojis = ['🌸','🌹','🌷','💮','🪷'];
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('span');
+      p.className = 'petal';
+      p.textContent = emojis[i % emojis.length];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (7 + Math.random() * 8) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.fontSize = (14 + Math.random() * 12) + 'px';
+      document.body.prepend(p);
+    }
+  </script>
+
+  <!-- Avatar -->
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <div class="avatar-inner"><img src="logo.jpg" alt="Alana Florist" /></div>
+  </div>
+
+  <!-- Name -->
+  <div class="brand">Alana Florist</div>
+  <div class="handle">@alanaflorist_</div>
+  <p class="tagline">Hand bouquet & flower arrangement<br>dengan sentuhan penuh kasih 🌹</p>
+
+  <div class="badges">
+    <span class="badge">✨ Custom Order</span>
+    <span class="badge">🎁 Gift Ready</span>
+    <span class="badge">📍 Pati, Jawa Tengah</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Products -->
+  <div class="section-label">Layanan Kami</div>
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-icon">💐</div>
+      <div class="product-name">Hand Bouquet</div>
+      <div class="product-desc">Rangkaian buket tangan elegan untuk berbagai momen</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">🌷</div>
+      <div class="product-name">Flower Arrangement</div>
+      <div class="product-desc">Dekorasi bunga cantik sesuai kebutuhan acara</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">✨</div>
+      <div class="product-name">Papan Akrilik</div>
+      <div class="product-desc">Dekorasi papan akrilik estetik untuk momen spesialmu</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">🎁</div>
+      <div class="product-name">Gift Package</div>
+      <div class="product-desc">Paket hadiah spesial dengan sentuhan bunga segar</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Links -->
+  <div class="section-label">Temukan Kami di</div>
+  <div class="links">
+
+    <a class="link-card" href="https://www.tiktok.com/@alanaflorist_" target="_blank" rel="noopener">
+      <div class="link-icon">🎵</div>
+      <div class="link-text">
+        <span class="link-title">TikTok</span>
+        <span class="link-sub">@alanaflorist_ — tonton proses & inspirasi</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://wa.me/6285190821518?text=Halo%20Alana%20Florist%2C%20saya%20mau%20pesan%20buket%20🌸" target="_blank" rel="noopener">
+      <div class="link-icon">💬</div>
+      <div class="link-text">
+        <span class="link-title">WhatsApp</span>
+        <span class="link-sub">Order & konsultasi langsung</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <a class="cta" href="https://wa.me/6285190821518?text=Halo%20Alana%20Florist%2C%20saya%20mau%20pesan%20buket%20🌸" target="_blank" rel="noopener">
+    🌹 Pesan Sekarang via WhatsApp
+  </a>
+
+  <p class="footer">Alana Florist · Hand Bouquet &amp; Flower Arrangement · Pati, Jawa Tengah</p>
+
+</body>
+</html>
